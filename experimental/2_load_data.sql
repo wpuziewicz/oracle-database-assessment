@@ -1,27 +1,36 @@
-CREATE OR REPLACE FUNCTION load_data(dir_name VARCHAR, file_tag VARCHAR, truncate_tables BOOLEAN) 
-RETURNS TABLE (table_loaded VARCHAR, rows_loaded INT)
+CREATE OR REPLACE FUNCTION load_data(dir_name VARCHAR, file_prefix VARCHAR, file_tag VARCHAR, truncate_tables BOOLEAN) 
+RETURNS TABLE (table_loaded VARCHAR, rows_loaded INT, file_name VARCHAR)
 AS $$
 DECLARE
     loadsql RECORD;
-	cnt bigINT = 0;
+	cnt BIGINT = 0;
+	rc BIGINT = 0;
+	fsize BIGINT = 0;
 BEGIN
 
     FOR loadsql IN
-      SELECT 'COPY ' || table_name || ' FROM '||chr(39)|| dir_name || '/opdb__' || table_name || file_tag ||chr(39)||
-             ' with (format CSV, delimiter ' ||chr(39) || '|' || chr(39) ||', header true);' AS the_sql,
+      SELECT 'COPY ' || table_name || ' FROM ' ||chr(39) AS pre,
+	         dir_name || '/' || file_prefix || table_name || file_tag AS fname,
+             chr(39) || ' with (format CSV, delimiter ' ||chr(39) || '|' || chr(39) ||', header true);' AS suf,
 			 table_name
       FROM information_schema.tables
       WHERE table_schema ='public'
       ORDER BY table_name
     LOOP
-	    IF truncate_tables THEN EXECUTE 'TRUNCATE TABLE ' || loadsql.table_name ;
-		END IF;
-
-        EXECUTE loadsql.the_sql;
-		GET DIAGNOSTICS rc=row_count;
+        table_loaded := loadsql.table_name;
+		file_name := loadsql.fname;
+	    SELECT size FROM pg_stat_file(loadsql.fname , true) INTO fsize;
 		
-		table_loaded := loadsql.table_name;
-		rows_loaded := rc;
+		IF (fsize IS NOT NULL ) THEN
+  	      IF truncate_tables THEN EXECUTE 'TRUNCATE TABLE ' || loadsql.table_name ;
+  		  END IF;
+
+          EXECUTE loadsql.pre || loadsql.fname || loadsql.suf;
+		  GET DIAGNOSTICS rc=row_count;
+		
+		  rows_loaded := rc;
+	    ELSE rows_loaded := 0;
+		END IF;
 		RETURN NEXT;
 
     END LOOP;
@@ -31,5 +40,12 @@ $$ LANGUAGE plpgsql;
 
 /* Usage :
 SELECT *
-FROM load_data('/tmp/new', '__210_3.0.3_317593e95c22_XE_XE_092022202249.csv', TRUE);
+FROM load_data('/tmp/new', 'opdb__', '__210_3.0.3_317593e95c22_XE_XE_092022202249.csv', TRUE);
+
+SELECT *
+FROM load_data('/tmp/new', 'optconfig__', '__.csv', TRUE);
+
 */
+
+
+select pg_stat_file('/tmp/new/optconfig__optimusconfig_bms_machinesizes__.csv', true);
