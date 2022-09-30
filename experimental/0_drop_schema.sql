@@ -41,3 +41,10 @@ drop table if exists public.dbmigration_details;
 drop table if exists public.dbsizing_facts;
 drop table if exists public.dbsizing_facts_orig;
 drop table if exists public.dbsizing_summary;
+
+drop table if exists public.optimusconfig_bms_machinesizes;
+drop table if exists public.optimusconfig_network_to_gcp;
+drop table if exists public.t_ds_cpu_calc;
+drop table if exists public.T_DS_BMS_sizing;
+drop table if exists public.T_DS_Database_Metrics;
+drop table if exists public.vsysstat_columnar;

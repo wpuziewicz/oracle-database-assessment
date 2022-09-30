@@ -1,9 +1,3 @@
-
-select  table_name
-      FROM information_schema.tables
-      WHERE table_schema ='public'
-      ORDER BY table_name;
-	  
 --------------------------------------------------------
 --  DDL for Table AWRHISTCMDTYPES
 --------------------------------------------------------
@@ -294,7 +288,7 @@ select  table_name
    (	PKEY VARCHAR(256 ), 
 	CON_ID SMALLINT, 
 	NAME VARCHAR(128 ), 
-	CURRENTLY_USED VARCHAR(5 ), 
+	CURRENT_USAGE VARCHAR(5 ), 
 	DETECTED_USAGES BIGINT, 
 	TOTAL_SAMPLES BIGINT, 
 	FIRST_USAGE VARCHAR(14 ), 
@@ -303,7 +297,7 @@ select  table_name
    ) ;
   
  
-  
+--alter TABLE public.DBFEATURES rename column currently_used to current_usage;  
   
  
  
@@ -314,8 +308,8 @@ select  table_name
   CREATE TABLE public.DBHWMARKSTATISTICS 
    (	PKEY VARCHAR(256 ), 
 	DESCRIPTION VARCHAR(128 ), 
-	HIGHWATER BIGINT, 
-	LAST_VALUE BIGINT
+	HIGHWATER NUMERIC, 
+	LAST_VALUE NUMERIC
    ) ;
   
  
@@ -702,5 +696,17 @@ select  table_name
 	TABLESPACE_NAME VARCHAR(30 )
    ) ;
   
- 
- 
+CREATE TABLE optimusconfig_bms_machinesizes (
+	cores	VARCHAR(128 ),
+	ram_gb	VARCHAR(128 ),
+	machine_size	VARCHAR(128 ),
+	machine_size_short	VARCHAR(128 ),
+	processor	VARCHAR(128 ),
+	est_price	VARCHAR(128 )
+);
+
+CREATE TABLE optimusconfig_network_to_gcp (
+	network_to_gcp	VARCHAR(128 ),
+	gbytes_per_sec	VARCHAR(128 ),
+	mbytes_per_sec	VARCHAR(128 )
+);

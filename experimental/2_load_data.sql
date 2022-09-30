@@ -40,12 +40,10 @@ $$ LANGUAGE plpgsql;
 
 /* Usage :
 SELECT *
-FROM load_data('/tmp/new', 'opdb__', '__210_3.0.3_317593e95c22_XE_XE_092022202249.csv', TRUE);
+FROM load_data('/tmp/new', 'opdb__', '__190_3.0.4_rac194.wpuziewicz.com_OUSPRD_ousprd1_092922083826.csv', TRUE);
 
 SELECT *
 FROM load_data('/tmp/new', 'optconfig__', '__.csv', TRUE);
 
 */
 
-
-select pg_stat_file('/tmp/new/optconfig__optimusconfig_bms_machinesizes__.csv', true);
