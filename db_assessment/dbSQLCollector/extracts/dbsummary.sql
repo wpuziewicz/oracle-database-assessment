@@ -77,11 +77,17 @@ SELECT '&&v_host'
        (SELECT protection_mode
         FROM   v$database)                                                      AS dg_protection_mode,
        (SELECT protection_level
-        FROM   v$database)                                                      AS dg_protection_level
+        FROM   v$database)                                                      AS dg_protection_level,
+       (SELECT ( ROUND(SUM(bytes) / 1024 / 1024 / 1024) )
+        FROM   &v_tblprefix._temp_files)                                        AS db_size_temp_allocated_gb,
+       (SELECT  ( ROUND(SUM(l.bytes) / 1024 / 1024 / 1024 ) )
+        FROM v$log l,
+             v$logfile f
+        WHERE f.group# = l.group#     )                                         AS db_size_redo_allocated_gb
 FROM   dual)
 SELECT pkey , dbid , db_name , cdb , db_version , db_fullversion , log_mode , force_logging ,
        redo_gb_per_day , rac_dbinstaces , characterset , platform_name , startup_time , user_schemas ,
 	   buffer_cache_mb , shared_pool_mb , total_pga_allocated_mb , db_size_allocated_gb , db_size_in_use_gb ,
-	   db_long_size_gb , dg_database_role , dg_protection_mode , dg_protection_level
+	   db_long_size_gb , dg_database_role , dg_protection_mode , dg_protection_level, db_size_temp_allocated_gb, db_size_redo_allocated_gb
 FROM vdbsummary;
 spool off
