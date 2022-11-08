@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "matangover.mypy",
     "ms-python.black-formatter",
     "mikestead.dotenv",
     "eamodio.gitlens",
@@ -9,6 +8,8 @@
     "christian-kohler.path-intellisense",
     "elagil.pre-commit-helper",
     "ms-python.vscode-pylance",
-    "ms-python.python"
+    "ms-python.python",
+    "mtxr.sqltools",
+    "knowsuchagency.pdm-task-provider"
   ]
 }
