@@ -30,9 +30,10 @@ prompt
 
 prompt Initializing Optimus Prime Collector...
 prompt
-
+SET DEFINE "&"
 DEFINE SQLDIR=&2
 DEFINE EXTRACTSDIR=&SQLDIR/extracts
+@@check_privs.sql
 set termout off
 @@op_collect_init.sql
 set termout on
