@@ -47,6 +47,8 @@ set termout off
 @&EXTRACTSDIR/sourceconn.sql
 @&EXTRACTSDIR/sqlstats.sql
 @&EXTRACTSDIR/tablesnopk.sql
+@&EXTRACTSDIR/tabletypes.sql
+@&EXTRACTSDIR/triggers.sql
 @&EXTRACTSDIR/usedspacedetails.sql
 @&EXTRACTSDIR/usrsegatt.sql
 @&SQLDIR/&v_dopluggable
