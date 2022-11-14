@@ -38,7 +38,7 @@ set termout off
 @&EXTRACTSDIR/dbsummary.sql
 @&EXTRACTSDIR/exttab.sql
 @&EXTRACTSDIR/idxpertable.sql
-@&EXTRACTSDIR/indexestypes.sql
+@&EXTRACTSDIR/indextypes.sql
 @&EXTRACTSDIR/ioevents.sql
 @&EXTRACTSDIR/iofunction.sql
 @&EXTRACTSDIR/lobsizing.sql
